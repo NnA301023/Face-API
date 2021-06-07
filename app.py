@@ -17,7 +17,7 @@ from PIL import Image
 
 # define required parameter 
 app = Flask(__name__, template_folder="template",static_url_path='/static')
-app.config["UPLOAD_FOLDER"] = "C:\\Users\\User\Project_FreeLancer\\static\images".replace("\\","/")
+app.config["UPLOAD_FOLDER"] = "FACE-API/static"
 app.config['SESSION_TYPE'] = 'filesystem'
 app.secret_key = "common key"
 sess = Session(app)
@@ -25,7 +25,7 @@ sess = Session(app)
 # define the scope
 scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
 # add credentials to the account
-creds = ServiceAccountCredentials.from_json_keyfile_name('E:/project_py_web/FREELANCER/Face Recog CNN_/helper/face-recognition-cnn-dcf6c99e9e72.json', scope)
+creds = ServiceAccountCredentials.from_json_keyfile_name('helper/face-recognition-cnn-dcf6c99e9e72.json', scope)
 # authorize the clientsheet 
 client = gspread.authorize(creds)
 # get the instance of the Spreadsheet
@@ -34,7 +34,7 @@ sheet = client.open('Database Matriks Face ')
 sheet_runs = sheet.get_worksheet(1)
 
 # Load the cascade
-face_cascade = cv.CascadeClassifier('E:/project_py_web/FREELANCER/Face Recog CNN_/helper/haarcascade_frontalface_alt2.xml')
+face_cascade = cv.CascadeClassifier('helper/haarcascade_frontalface_alt2.xml')
 
 @app.route("/", methods=["GET","POST"])
 def main():
@@ -57,7 +57,7 @@ def main():
                 resized = cv.resize(faces, (300,300))
                 # save resized & nik_value to spreadsheet
                 sheet_runs.insert_row([nik_value])
-                
+                # belum save image (g-drive / local github)
                 return redirect("/")
         else :
             return redirect("/")
